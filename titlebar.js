@@ -31,29 +31,21 @@ angular.module('sopro.components.titlebar', [
 function SoProTitlebarDirective($$rAF) {
   return {
     restrict: 'E',
-    controller: function($scope, element, attr){
-      if(attr["title-hint"] === "" || attr["title-hint"] === undefined){
-        $scope.titleHint = "Add New...";       
-      } else {
-        $scope.titleHint = attr["title-hint"];
-      }
-    }, 
-    compile: function(element, attr) {
-    },
-    link: function($scope, element, attr) {
-      $$rAF(function() {
-      });
+    transclude: true,
+    scope: {
+      titleHint: "@",
     },
     template:
-      '<div id="quickAddBox">' +
+      '<div class="titlebarBox">' +
         '<form name="quickAddForm" style="padding-left:20px;">' +
           '<material-input-group>' +
-            '<label for="quickAddTitle">{{titleHint}}</label>' +
-            '<material-input name="quickAddTitle" id="quickAddTitle" type="text" size="45" ng-model="newTitle" flex>' +
+            '<material-input name="addTitle" class="addTitle" type="text" size="45" ng-model="newTitle" placeholder="{{titleHint}}" flex>' +
           '</material-input-group>' +
-            '<material-button id="quickAddButton" class="material-button-colored" ng-show="quickAddForm.$dirty" ng-click="newGroup()">' +
+          '<div ng-transclude></div>' +
+            '<material-button class="titlebarAddButton material-button-colored" ng-show="quickAddForm.$dirty" ng-click="alert">' +
               'SAVE' +
             '</material-button>' +
+            '<div class="clearBoth"></div>' +
         '</form>' +
       '</div>',
   };
